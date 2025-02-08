@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bypass AddLinks</title>
+    <script>
+        async function bypassAddlink() {
+            const urlInput = document.getElementById("urlInput").value;
+            if (!urlInput) {
+                alert("Por favor, insira uma URL.");
+                return;
+            }
+            
+            const apiUrl = `https://helya.pylex.xyz:10234/api/addlink?url=${encodeURIComponent(urlInput)}`;
+            
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) {
+                    throw new Error("Erro na requisição: " + response.status);
+                }
+                const data = await response.json();
+                
+                if (data.result) {
+                    document.getElementById("output").innerText = "Resultado: " + data.result;
+                } else {
+                    document.getElementById("output").innerText = "Erro ao obter o resultado.";
+                }
+            } catch (error) {
+                document.getElementById("output").innerText = "Erro ao conectar à API: " + error.message;
+                console.error("Erro:", error);
+            }
+        }
+    </script>
+</head>
+<body>
+    <h2>Bypass AddLinks</h2>
+    <input type="text" id="urlInput" placeholder="Insira a URL aqui">
+    <button onclick="bypassAddlink()">Bypass</button>
+    <p id="output"></p>
+</body>
+</html>
